@@ -33,3 +33,10 @@ This project demonstrates fundamental SQL operations using PostgreSQL. It includ
 ```sql
 SELECT * FROM employees
 WHERE slary > 60000;
+
+### 🔹 Q2: Paginated Employee List (Limit & Offset)
+
+**Objective**: Retrieve the names of employees, limit 2, starting from the 3rd employee.
+```sql
+SELECT * FROM employees
+LIMIT 2 OFFSET 2;
