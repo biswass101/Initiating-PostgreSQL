@@ -70,14 +70,14 @@ where
 	email like '%example.net' or 
 	email like '%google.com';
 
--- Q4: Retrieve the names of all employees who belong to the department titled 'Engineering'.
+-- Q5: Retrieve the names of all employees who belong to the department titled 'Engineering'.
 
 select employee_name from employees
 inner join departments
 on employees.department_id = departments.department_id
 where department_name = 'Engineering';
 
--- Q5:  Update the status of the employee with the highest salary to 'Promoted'
+-- Q6:  Update the status of the employee with the highest salary to 'Promoted'
 -- s1: 
 update employees
 set status = 'Promoted'
@@ -93,7 +93,7 @@ update employees
 set status = 'promoted'
 where salary = (select max(salary) from employees);
 
--- Q5:  Retrieve the department name and the average salary of employees in each department
+-- Q7:  Retrieve the department name and the average salary of employees in each department
 -- s1:
 select department_name, avg(salary)
 from departments
