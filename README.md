@@ -119,6 +119,94 @@ from (
 )
 group by department_name;
 ```
+# Some Advanced Query
+# SQL Query: Department with the Highest Average Salary
+
+## 📝 Query Objective
+Retrieve the **department name**, **average salary**, and **number of employees** for the department that has the **highest average salary**.
+
+## 🧠 Logic Breakdown
+
+1. **Inner Query (Subquery)**:
+   - Joins the `departments` and `employees` tables using `department_id`.
+   - Groups the data by `department_name`.
+   - Calculates:
+     - The **average salary** per department.
+     - The **number of employees** (`COUNT(e.employee_id)`).
+   - This result is aliased for use in both the outer query and the comparison subquery.
+
+2. **Comparison Subquery in WHERE Clause**:
+   - Repeats the aggregation logic to find the **maximum average salary** across all departments.
+
+3. **Outer Query**:
+   - Filters the subquery result to only include the department(s) where the average salary is equal to the maximum average salary.
+   - Selects the **department name**, **average salary**, and **number of employees**.
+
+## 🧾 Final SQL Query
+
+```sql
+SELECT department_name, avg_salary, num_of_emp
+FROM (
+    SELECT department_name, AVG(salary) AS avg_salary, COUNT(e.employee_id) AS num_of_emp
+    FROM departments AS d
+    INNER JOIN employees AS e ON d.department_id = e.department_id
+    GROUP BY department_name
+) AS dept_avg
+WHERE avg_salary = (
+    SELECT MAX(avg_salary)
+    FROM (
+        SELECT department_name, AVG(salary) AS avg_salary, COUNT(e.employee_id) AS num_of_emp
+        FROM departments AS d
+        INNER JOIN employees AS e ON d.department_id = e.department_id
+        GROUP BY department_name
+    ) AS max_avg
+);
+```
+# SQL Query: Employees Earning Above Department Average
+
+## 📝 Query Objective
+Retrieve a list of **employees who earn more than the average salary** of their **respective departments**. The result includes:
+- Employee name
+- Employee salary
+- Department name
+- Department’s average salary
+
+## 🧠 Logic Breakdown
+
+1. **Subquery A (`a`)**:
+   - Joins `departments` and `employees` tables.
+   - Selects each employee’s:
+     - `employee_name`
+     - `salary`
+     - `department_name`
+
+2. **Subquery B (`b`)**:
+   - Also joins `departments` and `employees`.
+   - Groups by `department_name`.
+   - Computes:
+     - The **average salary** per department.
+
+3. **Main Query**:
+   - Joins `a` and `b` on `department_name`.
+   - Filters the results where the **employee's salary is greater than the department's average salary**.
+
+## 🧾 Final SQL Query
+
+```sql
+SELECT a.employee_name, a.salary, a.department_name, b.avg_salary
+FROM (
+    SELECT employee_name, salary, department_name
+    FROM departments AS d
+    INNER JOIN employees AS e ON d.department_id = e.department_id
+) AS a
+INNER JOIN (
+    SELECT AVG(salary) AS avg_salary, department_name
+    FROM departments AS d
+    INNER JOIN employees AS e ON d.department_id = e.department_id
+    GROUP BY department_name
+) AS b ON a.department_name = b.department_name
+WHERE a.salary > b.avg_salary;
+
 
 
 
