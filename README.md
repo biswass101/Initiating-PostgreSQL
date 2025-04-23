@@ -34,3 +34,13 @@ This project demonstrates fundamental SQL operations using PostgreSQL. It includ
 SELECT * FROM employees
 WHERE slary > 60000;
 
+---
+
+### 🔹 Q2: Retrieve the names of employees using a limit of 2, starting from the 3rd employee.
+
+**Objective**: Use the `LIMIT` and `OFFSET` clauses to retrieve employee records starting from the 3rd employee, limiting the result to 2 employees.
+
+```sql
+SELECT * FROM employees
+LIMIT 2 OFFSET 2;
+
