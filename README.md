@@ -1,4 +1,4 @@
-# Initiating-PostgreSQL
+# Initiating-PostgreSQL-Practice-Problems
 
 # 📊 PostgreSQL Department & Employee Management
 
